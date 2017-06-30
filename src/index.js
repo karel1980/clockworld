@@ -6,6 +6,48 @@ import {Entity, Scene} from 'aframe-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+
+const Clock = (props) => {
+	const hourMarkers = [0,1,2,3,4,5,6,7,8,9,10,11].map((hour) => {
+		const hourLabel = hour == 0 ? '12' : hour;
+		return (
+				<a-entity position="0 0 0.02">
+					<a-entity rotation={'0 0 '+hour*360/12}>
+						<a-box key={'hourMarker'+hour} color="#333333" position="0 0.12 0"
+							depth="0.01" height="0.03" width="0.01"></a-box>
+					</a-entity>
+					<a-entity rotation={'0 0 '+(-hour*360/12)}>
+						<a-entity position="0 0.24 0">
+							<a-text scale="0.3 0.3" rotation={'0 0 '+(hour*360/12)} value={hourLabel} align="center"></a-text>
+						</a-entity>
+					</a-entity>
+				</a-entity>)
+	});
+
+	const hourHand = (<a-entity position="0 0 0.02">
+					<a-entity rotation={'0 0 '+ -(props.hour+props.minutes/60)*360/12}>
+						<a-box color="#ff0000" position="0 0.035 0.01"
+							depth="0.01" height="0.07" width="0.01"></a-box>
+					</a-entity>
+				</a-entity>);
+
+	const minuteHand = (<a-entity position="0 0 0.02">
+					<a-entity rotation={'0 0 '+ -(props.minutes*6)}>
+						<a-box color="#00ff00" position="0 0.045 0.01"
+							depth="0.01" height="0.09" width="0.01"></a-box>
+					</a-entity>
+				</a-entity>);
+
+	return (
+		<Entity position={{x: 0, y: 1.5, z: -2}}>
+			<a-cylinder color="#eeeeee" rotation="90 0 0" radius="0.14" height="0.04"></a-cylinder>
+			<a-torus color="#43A367" radius="0.16" radius-tubular="0.01"></a-torus>
+			{hourMarkers}
+			{hourHand}
+			{minuteHand}
+		</Entity>);
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -34,17 +76,7 @@ class App extends React.Component {
         <Entity particle-system={{preset: 'snow', particleCount: 2000}}/>
         <Entity text={{value: 'Hello, A-Frame React!', align: 'center'}} position={{x: 0, y: 2, z: -1}}/>
 
-        <Entity id="box"
-          geometry={{primitive: 'box'}}
-          material={{color: this.state.color, opacity: 0.6}}
-          animation__rotate={{property: 'rotation', dur: 2000, loop: true, to: '360 360 360'}}
-          animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '1.1 1.1 1.1'}}
-          position={{x: 0, y: 1, z: -3}}
-          events={{click: this.changeColor.bind(this)}}>
-          <Entity animation__scale={{property: 'scale', dir: 'alternate', dur: 100, loop: true, to: '2 2 2'}}
-                  geometry={{primitive: 'box', depth: 0.2, height: 0.2, width: 0.2}}
-                  material={{color: '#24CAFF'}}/>
-        </Entity>
+		<Clock hour={14} minutes={35}/>
 
         <Entity primitive="a-camera">
           <Entity primitive="a-cursor" animation__click={{property: 'scale', startEvents: 'click', from: '0.1 0.1 0.1', to: '1 1 1', dur: 150}}/>
