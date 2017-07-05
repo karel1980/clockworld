@@ -34,10 +34,20 @@ const formatHour = (hour) => hour === 0 ? 12 : hour;
 export const createAnswer = (correct, hours, minutes) => {
 	let label = '';
 	const nextHour = hours + 1;
-	if (minutes < 29) {
+	if (minutes === 0) {
+		label = '' + formatHour(hours) + ' uur';
+	} else if (minutes < 15) {
+		label = minutes + ' over ' + formatHour(hours);
+	} else if (minutes === 15) {
+		label = 'kwart over ' + formatHour(hours);
+	} else if (minutes < 30) {
 		label = minutes + ' over ' + formatHour(hours);
 	} else if (minutes === 30) {
 		label = 'half ' + formatHour(nextHour);
+	} else if (minutes < 45) {
+		label = (60 - minutes) + ' voor ' + formatHour(nextHour);
+	} else if (minutes === 45) {
+		label = 'kwart voor ' + formatHour(nextHour);
 	} else {
 		label = (60 - minutes) + ' voor ' + formatHour(nextHour);
 	}
