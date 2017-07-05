@@ -78,8 +78,8 @@ const generateQuestionAndAnswers = () => {
 	}
 	const answers = inplaceShuffle([
 		createAnswer(true,  hours % 12, minutes),
-		createAnswer(false, (hours + offsets[0] + 12) % 12, minutes + getRandomInt(-1, 1) * 5),
-		createAnswer(false, (hours + offsets[1] + 12) % 12, minutes + getRandomInt(-1, 1) * 5)
+		createAnswer(false, (hours + offsets[0] + 12) % 12, minutes + getRandomInt(minutes === 0 ? 0:-1, 1) * 5),
+		createAnswer(false, (hours + offsets[1] + 12) % 12, minutes + getRandomInt(minutes === 0 ? 0:-1, 1) * 5)
 	]);
 
 	return {
