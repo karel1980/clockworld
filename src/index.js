@@ -12,25 +12,40 @@ import {handleAnswer, nextQuestion} from "./actions/clock.actions";
 
 import store from './store.js';
 
-const AnswerButtons = (props) => (
+const BaseAnswerButtons = (props) => (
 	<a-entity>
-		<Entity events={{click:() => props.onAnswer(props.answers[0])}}>
+		<Entity events={{click:() => props.onAnswer(0)}}>
 			<a-box id="answer-1" depth="0.02" height="0.2" width="0.40" color="#ff3333" position="0.6 0 0">
-				<a-text value={props.answers[0].label} font="monoid" align="center" scale="0.6 0.6" position="0 0.01 0.01"></a-text>
+				<Entity primitive="a-text" value={props.answers[0].label} 
+					align="center" scale="0.3 0.3" position="0 0.01 0.01"></Entity>
 			</a-box>
 		</Entity>
-		<Entity events={{click:() => props.onAnswer(props.answers[1])}}>
+		<Entity events={{click:() => props.onAnswer(1)}}>
 			<a-box id="answer-2" depth="0.02" height="0.2" width="0.40" color="#33ff33" position="0 0.4 0">
-				<a-text value={props.answers[1].label} font="monoid" align="center" scale="0.6 0.6" position="0 0.01 0.01"></a-text>
+				<Entity primitive="a-text" value={props.answers[1].label} 
+					align="center" scale="0.3 0.3" position="0 0.01 0.01"></Entity>
 			</a-box>
 		</Entity>
-		<Entity events={{click:() => props.onAnswer(props.answers[2])}}>
+		<Entity events={{click:() => props.onAnswer(2)}}>
 			<a-box id="answer-3" depth="0.02" height="0.2" width="0.40" color="#3333ff" position="-0.6 0 0">
-				<a-text value={props.answers[2].label} font="monoid" align="center" scale="0.6 0.6" position="0 0.01 0.01"></a-text>
+				<Entity primitive="a-text" value={props.answers[2].label} 
+					align="center" scale="0.3 0.3" position="0 0.01 0.01"></Entity>
 			</a-box>
 		</Entity>
 	</a-entity>
 );
+
+const mstp = (state) => {
+	console.log('TTT', state);
+	return {
+		...state
+	};
+};
+
+const mdtp = (dispatch) => ({});
+
+const AnswerButtons = connect( mstp, mdtp )(BaseAnswerButtons);
+
 
 const Clock = (props) => {
 	const hourMarkers = [0,1,2,3,4,5,6,7,8,9,10,11].map((hour) => {
@@ -88,10 +103,10 @@ const BaseApp = (props) => (
 	{props.question && props.answers &&
 	<a-entity position="0 1.5 -1">
 		<Clock hour={props.question.hours} minutes={props.question.minutes}/>
-		<AnswerButtons answers={props.answers} onAnswer={(answer) => props.handleAnswer(answer)}/>
+		<AnswerButtons answers={props.answers} onAnswer={props.handleAnswer}/>
 	</a-entity>}
 
-	<a-text value={props.score} position="0 0 -1"></a-text>
+	<a-text value={props.score} position="0 0.5 -2"></a-text>
 
 	{/*test box*/}
 	{/*<a-cylinder id="plusOne" color="#F55" radius="0.1"
@@ -120,7 +135,10 @@ const BaseApp = (props) => (
 </Scene>
 );
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = (state) => {
+	console.log('mapping state to props for App', state);
+	return state;
+}
 
 const mapDispatchToProps = (dispatch) => ({
 	nextQuestion: () => {
@@ -128,6 +146,7 @@ const mapDispatchToProps = (dispatch) => ({
 		return dispatch(nextQuestion());
 	},
 	handleAnswer: (answer) => {
+		console.log('user chose answer', answer);
 		dispatch(handleAnswer(answer));
 	}
 });

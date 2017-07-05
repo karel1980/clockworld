@@ -29,9 +29,19 @@ function inplaceShuffle(array) {
 	return array;
 }
 
+const formatHour = (hour) => hour === 0 ? 12 : hour;
+
 const createAnswer = (correct, hours, minutes) => {
-	const minutesPadded = (minutes < 10 ? '0' : '') + minutes;
-	const label = '' + hours + ':' + minutesPadded;
+	let label = '';
+	const nextHour = hours + 1;
+	if (minutes < 29) {
+		label = minutes + ' over ' + formatHour(hours);
+	} else if (minutes === 30) {
+		label = 'half ' + formatHour(nextHour);
+	} else {
+		label = (60 - minutes) + ' voor ' + formatHour(nextHour);
+	}
+	console.log('correctAnswer', correct, hours, minutes, label);
 	return {
 		correct,
 		hours,
@@ -40,15 +50,27 @@ const createAnswer = (correct, hours, minutes) => {
 	};
 };
 
+const BOTH_SMALLER = 0;
+const AROUND = 1;
+//const BOTH_LARGER = 2;
+
 const generateQuestionAndAnswers = () => {
 	const hours = getRandomInt(0, 12);
 	const minutes = getRandomInt(0, 11) * 5;
 
-	const hourOffset = getRandomInt(-2, 0);
+	let offsetMode = getRandomInt(0, 2);
+	let offsets;
+	if (offsetMode === BOTH_SMALLER) {
+		offsets = [ -2, -1 ];
+	} else if (offsetMode === AROUND) {
+		offsets = [ -1, 1 ];
+	} else {
+		offsets = [ 1, 2 ];
+	}
 	const answers = inplaceShuffle([
-		createAnswer(true, hours + hourOffset, minutes),
-		createAnswer(false, hours + hourOffset + 1, minutes + getRandomInt(-1, 1) * 5),
-		createAnswer(false, hours + hourOffset + 2, minutes + getRandomInt(-1, 1) * 5)
+		createAnswer(true,  hours % 12, minutes),
+		createAnswer(false, (hours + offsets[0] + 12) % 12, minutes + getRandomInt(-1, 1) * 5),
+		createAnswer(false, (hours + offsets[1] + 12) % 12, minutes + getRandomInt(-1, 1) * 5)
 	]);
 
 	return {
@@ -66,11 +88,11 @@ const clockWorldReducer = (state = initialState, action) => {
 			return {
 				...state,
 				...generateQuestionAndAnswers(),
-				scoreChange: 0,
-				score: 0
+				scoreChange: 0
 			};
 		case Actions.HANDLE_ANSWER:
-			const scoreChange = action.answer.correct ? 1 : -1;
+			const answer = state.answers[action.answer];
+			const scoreChange = answer.correct ? 1 : -1;
 			return state = {
 				...state,
 				scoreChange: scoreChange,
