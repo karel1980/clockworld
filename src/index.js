@@ -100,7 +100,11 @@ const BaseApp = (props) => (
 		<AnswerButtons answers={props.answers} onAnswer={props.handleAnswer}/>
 	</a-entity>}
 
-	<a-text value={props.score} position="0 0.5 -2"></a-text>
+	<a-entity position="0.8 2 -1" rotation="30 -30 0">
+		<a-box height="0.5" width="0.5" depth="0.03" color="#333333">
+			<a-text value={props.score} position="0 0 0.1" align="center"></a-text>
+		</a-box>
+	</a-entity>
 
 	{/*test box*/}
 	{/*<a-cylinder id="plusOne" color="#F55" radius="0.1"
