@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngokevin/aframe-react-boilerplate.git"
+    "url": "git+https://github.com/karel1980/clockworld.git"
   },
   "keywords": [
     "aframe",
@@ -37,12 +37,12 @@
     "aframe-react",
     "webvr"
   ],
-  "author": "Kevin Ngo <kngo@mozilla.com>",
+  "author": "Karel Vervaeke",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngokevin/aframe-react-boilerplate/issues"
+    "url": "https://github.com/karel1980/clockworld/issues"
   },
-  "homepage": "https://github.com/ngokevin/aframe-react-boilerplate#readme",
+  "homepage": "https://github.com/karel1980/clockworld#readme",
   "devDependencies": {
     "gh-pages": "^0.12.0"
   }
