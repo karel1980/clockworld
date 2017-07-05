@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/karel1980/clockworld/issues"
   },
-  "homepage": "https://github.com/karel1980/clockworld#readme",
+  "homepage": "https://karel1980.github.io/clockworld",
   "devDependencies": {
     "gh-pages": "^0.12.0"
   }
