@@ -14,7 +14,6 @@ registerComponent('event-proxy', {
 
 	update: function () {
 		var data = this.data;
-		console.log('in update');
 		this.el.addEventListener(data.listen, function () {
 			data.target('whatever');
 		});

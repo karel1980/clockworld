@@ -35,13 +35,7 @@ const BaseAnswerButtons = (props) => (
 	</a-entity>
 );
 
-const mstp = (state) => {
-	console.log('TTT', state);
-	return {
-		...state
-	};
-};
-
+const mstp = (state) => state;
 const mdtp = (dispatch) => ({});
 
 const AnswerButtons = connect( mstp, mdtp )(BaseAnswerButtons);
@@ -135,20 +129,10 @@ const BaseApp = (props) => (
 </Scene>
 );
 
-const mapStateToProps = (state) => {
-	console.log('mapping state to props for App', state);
-	return state;
-}
-
+const mapStateToProps = (state) => state;
 const mapDispatchToProps = (dispatch) => ({
-	nextQuestion: () => {
-		console.log('FFFF show next question');
-		return dispatch(nextQuestion());
-	},
-	handleAnswer: (answer) => {
-		console.log('user chose answer', answer);
-		dispatch(handleAnswer(answer));
-	}
+	nextQuestion: () => dispatch(nextQuestion()),
+	handleAnswer: (answer) => dispatch(handleAnswer(answer))
 });
 
 const App = connect(

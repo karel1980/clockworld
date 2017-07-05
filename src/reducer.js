@@ -31,7 +31,7 @@ function inplaceShuffle(array) {
 
 const formatHour = (hour) => hour === 0 ? 12 : hour;
 
-const createAnswer = (correct, hours, minutes) => {
+export const createAnswer = (correct, hours, minutes) => {
 	let label = '';
 	const nextHour = hours + 1;
 	if (minutes < 29) {
@@ -41,7 +41,6 @@ const createAnswer = (correct, hours, minutes) => {
 	} else {
 		label = (60 - minutes) + ' voor ' + formatHour(nextHour);
 	}
-	console.log('correctAnswer', correct, hours, minutes, label);
 	return {
 		correct,
 		hours,
